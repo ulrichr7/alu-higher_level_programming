@@ -1,28 +1,19 @@
 #!/usr/bin/python3
+"""Sends a request to a given URL and displays the response body.
+Usage: ./3-error_code.py <URL>
+  - Handles HTTP errors.
 """
-A Python script that takes in a URL, sends a request and displays
-the value of the X-Request-Id variable found in the header
-(handling HTTP errors)
-"""
-from urllib import request, error
 import sys
+import urllib.error
+import urllib.request
 
 
 if __name__ == "__main__":
-    try:
-        with request.urlopen(sys.argv[1]) as response:
-            body = response.read()
-            print(body.decode('utf-8'))
-    except error.HTTPError as err:
-        print('Error code: {}'.format(err.code))
-Footer
-© 2023 GitHub, Inc.
-Footer navigation
-Terms
-Privacy
-Security
-Status
-Docs
-Contact GitHub
-Pricing
+    url = sys.argv[1]
 
+    request = urllib.request.Request(url)
+    try:
+        with urllib.request.urlopen(request) as response:
+            print(response.read().decode("ascii"))
+    except urllib.error.HTTPError as e:
+        print("Error code: {}".format(e.code))
